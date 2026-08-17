@@ -38,11 +38,18 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/index.html" element={<Home />} />
+        <Route path="/index.php" element={<Home />} />
         <Route path="/careers" element={<Careers />} />
+        <Route path="/careers.html" element={<Careers />} />
         <Route path="/fbr-digital-invoicing-system" element={<FBRInvoicing />} />
+        <Route path="/fbr-digital-invoicing-system.html" element={<FBRInvoicing />} />
         <Route path="/services-form" element={<ServicesForm />} />
+        <Route path="/services-form.php" element={<ServicesForm />} />
         <Route path="/request-call" element={<RequestCall />} />
+        <Route path="/request-call.php" element={<RequestCall />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/blogs.html" element={<Blogs />} />
         <Route path="/blogs/posts/:slug" element={<BlogPost />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
