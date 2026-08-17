@@ -1,0 +1,1411 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+    color: #04335d;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #2ecc71;
+}
+
+a:hover {
+    color: #1e8655;
+}
+
+button {
+    background-color: #2ecc71;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+a.btn-emerald {
+    border-radius: 5px;
+    background-color: #2ecc71;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1e8655;
+}
+
+/* Header Section */
+header {
+    background-color: #ffffff;
+    padding: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    width: 190px;
+    height: 83px;
+    margin-right: 22px;
+}
+
+.logo img {
+    margin-top: 8px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+/* Decrease logo hieght when screeen size 767 */
+@media (max-width: 767px) {
+    .logo {
+        height: 75px;
+        margin-right: 0;
+        margin-left: 10px;
+    }
+
+}
+
+@media (max-width: 767px) {
+    .logo {
+        margin-top: 7px;
+        height: 70px;
+    }
+
+
+
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin-right: 20px;
+}
+nav{
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    color: #04335d;
+    padding: 15px;
+    margin-left: 20px;
+    margin-right: 30px;
+}
+
+nav a:hover {
+    color: #1e6091;
+}
+
+nav a.active {
+    color: #2ecc71;
+    font-weight: bold;
+    border-bottom: 2px solid #2ecc71;
+
+}
+
+.hamburger {
+    position: fixed;
+    right: 10px;
+    top: 25px;
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #04335d;
+    margin: 4px;
+    transition: 0.4s;
+}
+
+.nav-links {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+
+.nav-links.mobile {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.nav-links.mobile li {
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .nav-links.mobile {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background-color: #ffffff;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        text-align: center;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .nav-links.mobile li {
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .nav-links.open {
+        max-height: 500px;
+        /* Adjust as needed */
+    }
+    .toggle-slot {
+
+
+ /* position: absolute;
+ right: 40px;
+ top :15px; */
+
+    }
+
+}
+
+
+/* Ensure smooth transitions for the hamburger menu */
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background-color: #ffffff;
+        position: absolute;
+        top: 70px;
+        /* Adjust based on your header height */
+        left: 0;
+        text-align: center;
+    }
+
+    .nav-links li {
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (max-width: 272px) {
+    .hamburger {
+        position: fixed;
+        right: 10px;
+        top: 22px;
+    }
+}
+
+/* Hero Section */
+/* Image by www.freepik.com */
+.hero {
+    background: url("images/tax-return-financial-form-concept.jpg") no-repeat center center;
+    /* Image by www.freepik.com */
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    text-align: center;
+    padding-top: 80px;
+}
+
+/* Style for the benefits list */
+.hero-content ul {
+    list-style-type: disc;
+    margin-top: 10px;
+    padding-left: 20px;
+    text-align: left;
+    color: #ffffff;
+    /* Adjust color as needed */
+}
+
+.hero-content ul li {
+    margin-bottom: 5px;
+}
+
+
+/* Overlay for the hero section */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #04335d;
+    opacity: 0.8;
+    /* Adjust the opacity as needed */
+    z-index: 1;
+}
+
+/* Content inside the hero section */
+.hero .hero-content {
+    position: relative;
+    z-index: 2;
+    /* Ensure content appears above the overlay */
+}
+
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+/* Services Section */
+.services {
+    background-color: #dfe4e5;
+    /* Light tint of secondary color */
+    padding: 50px 0;
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #04335d;
+}
+
+.service-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.service {
+    width: 300px;
+    padding: 20px;
+    margin: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.service:hover {
+    transform: translateY(-10px);
+}
+
+.service i {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #2ecc71;
+}
+
+.service h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #04335d;
+}
+
+.service p {
+    font-size: 1.2em;
+    color: #666666;
+}
+
+/* About Section */
+.about {
+    background: #f4f4f4;
+    padding: 50px 0;
+}
+
+.about h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.about p {
+    text-align: left;
+    margin-bottom: 10px;
+    color: #666;
+    line-height: 1.8;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
+}
+
+.about .btn-emerald {
+    display: block;
+    width: 158px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #2ecc71;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.about .btn-emerald:hover {
+    background: #28a65a;
+}
+
+/* Contact Section */
+/* Define the keyframes for the fade-up animation */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Define the keyframes for the fade-down animation */
+@keyframes fadeDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply the animation to the .fadedown class */
+.fadedown {
+    animation: fadeDown 1s ease-out;
+}
+
+/* Apply fade-up animation to icons */
+.icon-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.9s ease-out forwards;
+}
+
+/* Style for contact info icons */
+.contact-info i {
+    font-size: 30px;
+    color: #2ecc71;
+    /* Accent Color */
+    margin-bottom: 6px;
+    padding: 5px;
+    border: 2px dotted #95a5a6;
+    /* Secondary Color */
+    border-radius: 50%;
+}
+
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contact section styling */
+.contact-section {
+    padding: 20 0 10px;
+
+    text-align: center;
+}
+
+.contact-section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #04335d;
+    /* Primary Color */
+}
+
+.contact-section p {
+    color: #95a5a6;
+    /* Secondary Color */
+    margin-bottom: 20px;
+}
+
+/* Contact container styling */
+.contact-container {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    animation: fadeUp 1.2s ease-out;
+}
+
+/* Contact info section styling */
+.contact-info {
+    flex: 1;
+    min-width: 300px;
+    margin-right: 20px;
+}
+
+.address p {
+    text-align: left;
+    /* Align text to the left */
+    line-height: 1.9;
+    /* Adjust line height for better readability */
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Responsive design for screens less than 991px */
+@media (max-width: 991px) {
+    .contact-container {
+        display: block;
+        width: 80%;
+        align-items: center;
+    }
+
+    .contact-form {
+        padding: 40px;
+    }
+    nav a{
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+/* Responsive design for screens less than 767px */
+@media (max-width: 767px) {
+    .email-call {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .contact-container {
+        max-width: 500px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 10px;
+        margin-bottom: 18px;
+    }
+}
+
+/* Box styling */
+.box {
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Email and call section styling */
+.email-call {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Define keyframes for the email fade-up animation */
+@keyframes fadeUpLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+        /* Start from left */
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+        /* End at its original position */
+    }
+}
+
+/* Define keyframes for the call fade-up animation */
+@keyframes fadeUpRight {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+        /* Start from right */
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+        /* End at its original position */
+    }
+}
+
+/* Apply animations to the email and call divs */
+.email {
+    flex: 1;
+    margin-right: 5px;
+    animation: fadeUpLeft 1s ease-out;
+}
+
+.call {
+    flex: 1;
+    animation: fadeUpRight 1s ease-out;
+    margin-left: 5px;
+}
+
+
+/* Email and call link styling */
+.email-call a {
+    color: #2ecc71;
+    /* Accent Color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 16px;
+    /* Default font size */
+}
+
+/* Define the animation for font size increase */
+@keyframes fontIncrease {
+    from {
+        font-size: 16px;
+        /* Default font size */
+    }
+
+    to {
+        font-size: 18px;
+        /* Increased font size */
+    }
+}
+
+/* Hover effect for email and call links */
+.email-call a:hover {
+    color: #032e5a;
+    /* A shade of your primary color */
+    text-decoration: underline;
+    /* Optional: Add underline on hover */
+    animation: fontIncrease 0.8s ease forwards;
+    /* Apply animation */
+}
+
+/* Visited link styling */
+.email-call a:visited {
+    color: #032e5a;
+    /* Darker shade of the accent color */
+}
+
+/* Container width styling */
+.contact-container {
+    width: 85%;
+    margin: auto;
+}
+
+/* Contact info header styling */
+.contact-info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #04335d;
+    /* Primary Color */
+}
+
+/* Contact info paragraph styling */
+.contact-info p {
+    color: #333;
+}
+
+/* Contact form styling */
+.contact-form {
+    flex: 1;
+    margin-right: 20px;
+}
+
+/* Responsive design for contact form margin on screens less than 991px */
+@media (max-width: 991px) {
+    .contact-form {
+        margin-right: 15px;
+    }
+}
+
+/* Responsive design for contact form margin on screens less than 767px */
+@media (max-width: 767px) {
+    .contact-form {
+        margin-right: 12px;
+    }
+}
+
+/* Responsive design for contact form margin on screens less than 541px */
+@media (max-width: 541px) {
+
+    .email {
+        margin-right: 0;
+    }
+
+    .call {
+        margin-left: 0;
+    }
+
+}
+
+/* Responsive design for contact info for width on screens less than 524px */
+@media (max-width: 524px) {
+
+    .contact-info {
+        min-width: 82vw;
+    }
+
+
+}
+
+
+
+
+
+/* Responsive design for contact form margin on screens less than 360px */
+@media (max-width: 360px) {
+    .contact-form {
+        margin-right: 5px;
+    }
+
+    .email {
+        margin-right: 0;
+    }
+
+    .call {
+        margin-left: 0;
+    }
+}
+
+/* Responsive design for contact form position on screens less than 355px */
+@media (max-width: 355px) {
+    .contact-info {
+        min-width: 295px;
+        margin-left: 1px;
+    }
+}
+
+
+/* Responsive design for contact form position on screens less than 350px */
+@media (max-width: 350px) {
+    .contact-info {
+        min-width: 82vw;
+        margin-left: 1px;
+    }
+}
+
+/* Responsive design for contact form position on screens less than 300px */
+@media (max-width: 300px) {
+    .contact-form {
+        position: relative;
+        left: 10px;
+    }
+
+    .contact-info {
+
+        margin-left: 8px;
+    }
+}
+
+/* Contact form inner styling */
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+/* Name and email input styling */
+.name-email {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+/* Individual name and email input styling */
+.name-email>input {
+    width: 50%;
+}
+
+/* Textarea styling */
+.contact-form textarea {
+    resize: none;
+    /* Disable resizing */
+    height: 130px;
+    /* Set a fixed height */
+}
+
+.contact-form input:focus ,.contact-form textarea:focus {
+border: 2.5px solid #666f70;
+outline: none;
+}
+
+/* General input and textarea styling */
+.contact-form input,
+.contact-form textarea {
+    padding: 10px 15px;
+    margin-bottom: 27px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+.contact-form input::placeholder,.contact-form textarea::placeholder{
+font-family: Arial, sans-serif;
+font-style: italic;
+}
+
+/* Submit button styling */
+.contact-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #2ecc71;
+    /* Accent Color */
+    color: #ffffff;
+    /* Neutral Color */
+    font-size: 16px;
+    margin: auto;
+    max-width: 60%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for submit button */
+.contact-form button:hover {
+    background-color: #28a745;
+}
+
+/* Initially hide the OTP container */
+#otpFormContainer {
+display: none; /* Hide by default */
+margin-top: 20px;
+padding: 20px;
+text-align: center;
+}
+
+/* OTP input form styling */
+#otpForm {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+#otpForm input {
+padding: 10px;
+margin-bottom: 15px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 16px;
+width: 100%;
+max-width: 300px;
+background-color: #f9f9f9;
+}
+
+/* OTP submit button styling */
+#otpForm button {
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+background-color: #2ecc71; /* Accent Color */
+color: #ffffff; /* Neutral Color */
+font-size: 16px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+width: 100%;
+max-width: 300px;
+}
+
+#otpForm button:hover {
+background-color: #27ae60; /* Darker green on hover */
+}
+
+/* Styling for status messages */
+#status {
+margin-top: 20px;
+font-size: 16px;
+font-weight: bold;
+display: none; /* Initially hidden */
+}
+
+#status.success {
+color: inherit; /* Use body text color */
+}
+
+#status.error {
+color: red;
+}
+
+/* Footer Section */
+footer {
+    background: #222;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+footer a {
+    color: #ffffff;
+    font-size: 1.1em;
+    /* margin: 10px 5px; */
+}
+
+footer a:hover {
+    color: #2ecc71;
+}
+
+footer .social a {
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+footer .social a:hover {
+    color: #2ecc71;
+}
+
+@media (max-width: 388px) {
+
+
+    .hero h1 {
+        font-size: 2.9em;
+    }
+}
+
+
+@media (max-width: 360px) {
+
+    footer {
+        text-align: left;
+    }
+
+    footer .social {
+        padding-top: 10px;
+        margin: auto;
+        max-width: 70vw;
+    }
+
+    footer .social a {
+
+        margin-left: 10px;
+    }
+
+    .hero h1 {
+        font-size: 2.8em;
+    }
+
+    @media (max-width: 348px) {
+
+
+        .hero h1 {
+            font-size: 2.6em;
+        }
+
+
+    }
+
+
+
+}
+
+@media (max-width: 333px) {
+
+    footer .container {
+        display: flex;
+        margin: 0;
+        margin-left: 9px;
+        font-size: 15px;
+    }
+
+    .hero h1 {
+        font-size: 2.1em;
+    }
+
+
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .service-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service {
+        width: 80%;
+    }
+
+    .contact-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-box.wide,
+    .php-email-form {
+        width: 90%;
+    }
+
+    .info-box.narrow {
+        width: 90%;
+    }
+
+    .go-to-top {
+
+        bottom: 155px;
+        right: 10px;
+    }
+
+}
+
+/* Loader Section */
+
+
+/* From Uiverse.io by SchawnnahJ */
+/* From Uiverse.io by SchawnnahJ */
+/* Loader Styles */
+.loader {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: #ffffff;
+z-index: 9999;
+display: flex;
+align-items: center;
+justify-content: center;
+opacity: 1;
+transition: opacity 1s ease-out;
+}
+
+
+.loader:before, .loader:after {
+content: "";
+position: absolute;
+top: 50%;
+left: 50%;
+display: block;
+width: 0.5em;
+height: 0.5em;
+border-radius: 0.25em;
+transform: translate(-50%, -50%);
+}
+
+.loader:before {
+animation: before8 2s infinite;
+}
+
+.loader:after {
+animation: after6 2s infinite;
+}
+
+/* Loader Animation */
+@keyframes before8 {
+0% { width: 0.5em; box-shadow: 1em -0.5em rgba(4, 51, 93, 0.75), -1em 0.5em rgba(149, 165, 166, 0.75); }
+35% { width: 2.5em; box-shadow: 0 -0.5em rgba(4, 51, 93, 0.75), 0 0.5em rgba(149, 165, 166, 0.75); }
+70% { width: 0.5em; box-shadow: -1em -0.5em rgba(4, 51, 93, 0.75), 1em 0.5em rgba(149, 165, 166, 0.75); }
+100% { box-shadow: 1em -0.5em rgba(4, 51, 93, 0.75), -1em 0.5em rgba(149, 165, 166, 0.75); }
+}
+
+
+@keyframes after6 {
+0% { height: 0.5em; box-shadow: 0.5em 1em rgba(46, 204, 113, 0.75), -0.5em -1em rgba(130, 145, 170, 0.75); }
+35% { height: 2.5em; box-shadow: 0.5em 0 rgba(46, 204, 113, 0.75), -0.5em 0 rgba(130, 145, 170, 0.75); }
+70% { height: 0.5em; box-shadow: 0.5em -1em rgba(46, 204, 113, 0.75), -0.5em 1em rgba(130, 145, 170, 0.75); }
+100% { box-shadow: 0.5em 1em rgba(46, 204, 113, 0.75), -0.5em -1em rgba(130, 145, 170, 0.75); }
+}
+
+/* Hidden Loader (Fade-out effect) */
+.loader.hidden {
+opacity: 0;
+visibility: hidden;
+}
+
+
+@keyframes fadeOut {
+100% {
+opacity: 0;
+visibility: hidden;
+}
+}
+
+/* Style for Go to Top button */
+.go-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 10px;
+    background-color: #2ecc71;
+    /* Adjust color as needed */
+    color: white;
+    border: none;
+    border-radius: 45%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    /* Hidden by default */
+    z-index: 1000;
+}
+
+.go-to-top:hover {
+    background-color: #27ae60;
+    /* Darker shade on hover */
+}
+
+.go-to-top.show {
+    opacity: 1;
+    /* Show button when scrolling down */
+}
+
+
+/* From Uiverse.io by JkHuger */ 
+.toggle-checkbox {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+.toggle-slot {
+cursor: pointer;
+font-size: 10px;
+position: fixed;
+right: 55px;
+top: 30px;
+height: 2.5em; /* Reduced height */
+width: 5em; /* Reduced width */
+border: 0px solid transparent;
+border-radius: 10em;
+background-color: #e6e8e8; /* 90% Tint of secondary color */
+transition: background-color 250ms;
+}
+
+.toggle-checkbox:checked ~ .toggle-slot {
+background-color: #374151;
+}
+
+.toggle-button {
+transform: translate(0.2em, 0.2em); /* Adjusted for smaller toggle */
+position: absolute;
+height: 2em; /* Reduced height */
+width: 2em; /* Reduced width */
+cursor: pointer;
+border-radius: 50%;
+background-color: #b8e9cd;
+box-shadow: inset 0px 0px 0px 0.5em #2ecc71; /* Adjusted box-shadow */
+transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+background-color: #485367;
+box-shadow: inset 0px 0px 0px 0.5em white; /* Adjusted box-shadow */
+transform: translate(3em, 0.2em); /* Adjusted for smaller toggle */
+}
+.sun-icon {
+cursor: pointer;
+position: absolute;
+height: 4em; /* Reduced height */
+width: 4em; /* Reduced width */
+color: #2ecc71;
+}
+
+.sun-icon-wrapper {
+position: absolute;
+height: 4em; /* Reduced height */
+width: 4em; /* Reduced width */
+opacity: 1;
+transform: translate(1.5em, 1.5em) rotate(15deg); /* Adjusted positioning */
+transform-origin: 50% 50%;
+transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+opacity: 0;
+transform: translate(2.5em, 1.5em) rotate(0deg); /* Adjusted positioning */
+}
+
+.moon-icon {
+position: absolute;
+height: 4em; /* Reduced height */
+width: 4em; /* Reduced width */
+color: white;
+}
+
+.moon-icon-wrapper {
+position: absolute;
+height: 4em; /* Reduced height */
+width: 4em; /* Reduced width */
+opacity: 0;
+transform: translate(7em, 1.5em) rotate(0deg); /* Adjusted positioning */
+transform-origin: 50% 50%;
+transition: opacity 150ms, transform 500ms cubic-bezier(.26,2.5,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+opacity: 1;
+transform: translate(1.5em, 1.5em) rotate(-15deg); /* Adjusted positioning */
+}
+
+/* Dark theme */
+
+:root {
+--primary-dark: #04335d;
+--secondary-dark: #95a5a6;
+--secondary-shade-30-dark:#666f70;
+--accentt-dark: #2ecc71;
+--neutral-dark: #ffffff;
+--background-dark: #1e1e1e;
+--text-dark: #e0e0e0;
+--shadetext-dark:#CACACA;
+--button-bg-dark: #2ecc71;
+--button-hover-dark: #1e8655;
+--link-dark: #2ecc71;
+--link-hover-dark: #1e8655;
+--card-bg-dark: #333333;
+--card-bg-lighter:#5d5b5be3;
+--overlay-dark: rgba(0, 0, 0, 0.8);
+}
+
+
+
+.dark-theme {
+background-color: var(--background-dark);
+color: var(--text-dark);
+}
+
+.dark-theme .hamburger div {
+background-color: var(--neutral-dark);
+
+}
+
+
+
+
+.dark-theme header {
+background-color: var(--secondary-shade-30-dark);
+box-shadow: 0 0 10px rgb(214 215 216/ 10%);
+}
+
+.dark-theme     .nav-links.open {
+background-color: var(--secondary-shade-30-dark);
+}
+
+.dark-theme nav a {
+color: var(--neutral-dark);
+}
+
+.dark-theme nav a:hover,
+.dark-theme nav a.active {
+color: var(--accentt-dark);
+}
+
+.dark-theme .hero {
+background: url("images/tax-return-financial-form-concept.jpg") no-repeat center center;
+background-size: cover;
+position: relative;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+color: var(--neutral-dark);
+text-align: center;
+padding-top: 80px;
+}
+
+.dark-theme .hero::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: var(--overlay-dark);
+z-index: 1;
+}
+
+.dark-theme .hero h1,
+.dark-theme .hero p,
+.dark-theme .services h2,
+.dark-theme .service h3,
+.dark-theme .about h2,
+.dark-theme .contact-section h2,
+.dark-theme .contact-info h3,
+.dark-theme .email-call a {
+color: var(--neutral-dark);
+position: relative;
+z-index: 2;
+}
+
+.dark-theme p {
+color: var(--neutral-dark);
+}
+
+.dark-theme .about p,
+.dark-theme .service p,
+.dark-theme .contact-info p,
+.dark-theme .address p {
+color: var(--neutral-dark);
+}
+
+
+/* Dark Theme - Service Box with Glow Effect */
+.dark-theme .service {
+background-color: var(--card-bg-dark);
+box-shadow: 0 0 30px rgba(214, 215, 216, 0.6); /* Subtle shadow for default state */
+transition: box-shadow 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+}
+
+.dark-theme .service:hover {
+transform: translateY(-10px);
+box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.6); /* Enhanced glow effect */
+}
+
+.dark-theme .services,
+.dark-theme .contact-section {
+background-color: var(--primary-dark);
+}
+
+.dark-theme .contact-form input,.dark-theme .contact-form textarea {
+background-color: var(--card-bg-dark);
+color:var(--neutral-dark);
+border: 1px solid var(--card-bg-lighter); 
+}
+
+.dark-theme .contact-form input:focus ,.dark-theme .contact-form textarea:focus {
+border: 2.5px solid #CACACA;
+}
+
+.dark-theme .contact-form input::placeholder,.dark-theme .contact-form textarea::placeholder{
+color:var(--shadetext-dark);
+font-family: Arial, sans-serif;
+font-style: italic;
+}
+
+.dark-theme .about{
+background-color: var(--background-dark)
+}
+
+.dark-theme .box {
+background-color: var(--card-bg-dark);
+}
+
+.dark-theme .btn-emerald,
+.dark-theme button {
+    background-color: var(--button-bg-dark);
+    color: var(--neutral-dark);
+    
+}
+
+.dark-theme .btn-emerald:hover,
+.dark-theme button:hover {
+    color:var(--neutral-dark) ;
+    box-shadow: 0 0 8px 2px var(--accentt-dark); /* Glow effect */
+    background-color: var(--accentt-dark);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.dark-theme a {
+color: var(--link-dark);
+}
+
+.dark-theme .hero .hero-content a:hover{
+    color:var(--neutral-dark);
+
+}
+
+.dark-theme a:hover {
+color: var(--link-hover-dark);
+}
+
+.dark-theme .contact-info i {
+color: var(--accentt-dark);
+border: 2px dotted var(--secondary-dark);
+}
+
+.dark-theme .email-call a:hover {
+color: var(--accentt-dark);
+}

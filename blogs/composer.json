@@ -1,0 +1,13 @@
+{
+    "name": "talha/blogs",
+    "description": "no",
+    "autoload": {
+        "psr-4": {
+            "Talha\\Blogs\\": "src/"
+        }
+    },
+    "require": {
+        "monolog/monolog": "*",
+        "ezyang/htmlpurifier": "*"
+    }
+}

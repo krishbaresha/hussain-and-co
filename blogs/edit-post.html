@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post | Hussain & Co.</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- TinyMCE Editor -->
+    <script src="https://cdn.tiny.cloud/1/kwhuec1fjfw3ufs4sab2soqwjsypyopmq4wnqbw5zx8xrfga/tinymce/5/tinymce.min.js"></script>
+    <style>
+        /* Custom Theme Colors */
+        :root {
+            --primary-color: #04335d;
+            --secondary-color: #95a5a6;
+            --accent-color: #2ecc71;
+            --neutral-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background-color: var(--primary-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            width: 250px;
+            padding-top: 50px;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        .sidebar-toggle {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 100;
+        }
+
+        .sidebar-toggle.active {
+            color: white;
+        }
+
+        /* Image Preview Styling */
+        .image-preview {
+            margin-top: 10px;
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+                width: 0;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.active {
+                left: 0;
+                width: 250px;
+            }
+
+            .main-content.active {
+                margin-left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .main-content h1 {
+                margin-top: 0;
+                margin-left: 23px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 class="text-center pt-5">Hussain & Co.</h2>
+        <ul class="nav flex-column ml-3 mt-5">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="create-post.html"><i class="fas fa-plus-circle"></i> Create Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manage-posts.html"><i class="fas fa-edit"></i> Manage Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="comments.html"><i class="fas fa-comments"></i> Manage Comments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="profile-settings.html"><i class="fas fa-user-cog"></i> Profile Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Edit Post</h1>
+
+        <!-- Edit Post Form -->
+        <form id="editPostForm" method="POST" action="update-post.php" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="postTitle">Post Title</label>
+                <input type="text" class="form-control" id="postTitle" name="title" value="Existing Post Title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="postExcerpt">Post Excerpt</label>
+                <input type="text" class="form-control" id="postExcerpt" name="excerpt" value="Existing Excerpt..." required>
+            </div>
+
+            <div class="form-group">
+                <label for="postContent">Post Content</label>
+                <textarea id="postContent" name="content" rows="10" class="form-control" required>Existing post content...</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="postThumbnail">Post Thumbnail</label>
+                <input type="file" class="form-control-file" id="postThumbnail" name="thumbnail">
+                <div id="thumbnailPreviewContainer">
+                    <img id="thumbnailPreview" class="image-preview" src="" alt="Thumbnail Preview" style="display: none;">
+                </div>
+                <!-- Display Delete button if a thumbnail exists -->
+                <button type="button" class="btn btn-danger mt-2" id="deleteThumbnailBtn" style="display:none;">Delete Thumbnail</button>
+            </div>
+
+            <div class="form-group">
+                <label for="fullImage">Full Image</label>
+                <input type="file" class="form-control-file" id="fullImage" name="full_image">
+                <div id="fullImagePreviewContainer">
+                    <img id="fullImagePreview" class="image-preview" src="" alt="Full Image Preview" style="display: none;">
+                </div>
+                <!-- Display Delete button if a full image exists -->
+                <button type="button" class="btn btn-danger mt-2" id="deleteFullImageBtn" style="display:none;">Delete Full Image</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle d-md-none">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- TinyMCE Initialization -->
+    <script>
+        tinymce.init({
+            selector: '#postContent',
+            height: 400,
+            menubar: false,
+            plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks', 'code'],
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | outdent indent | link image',
+        });
+    </script>
+
+    <!-- Sidebar Toggle Function -->
+    <script>
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            var sidebar = document.querySelector('.sidebar');
+            var mainContent = document.querySelector('.main-content');
+            var toggleButton = document.querySelector('.sidebar-toggle');
+
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('active');
+            toggleButton.classList.toggle('active');
+        });
+
+        // Show Delete Image Button if the thumbnail or full image is selected
+        document.getElementById('postThumbnail').addEventListener('change', function() {
+            var deleteBtn = document.getElementById('deleteThumbnailBtn');
+            var preview = document.getElementById('thumbnailPreview');
+            if (this.files.length > 0) {
+                deleteBtn.style.display = 'inline-block';
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                deleteBtn.style.display = 'none';
+                preview.style.display = 'none';
+            }
+        });
+
+        document.getElementById('fullImage').addEventListener('change', function() {
+            var deleteBtn = document.getElementById('deleteFullImageBtn');
+            var preview = document.getElementById('fullImagePreview');
+            if (this.files.length > 0) {
+                deleteBtn.style.display = 'inline-block';
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                deleteBtn.style.display = 'none';
+                preview.style.display = 'none';
+            }
+        });
+
+        // Function to delete the thumbnail or full image (mock-up for now)
+        document.getElementById('deleteThumbnailBtn').addEventListener('click', function() {
+            document.getElementById('postThumbnail').value = ''; // Clear the input field
+            this.style.display = 'none'; // Hide the delete button
+            document.getElementById('thumbnailPreview').style.display = 'none'; // Hide the preview
+        });
+
+        document.getElementById('deleteFullImageBtn').addEventListener('click', function() {
+            document.getElementById('fullImage').value = ''; // Clear the input field
+            this.style.display = 'none'; // Hide the delete button
+            document.getElementById('fullImagePreview').style.display = 'none'; // Hide the preview
+        });
+    </script>
+
+</body>
+</html>

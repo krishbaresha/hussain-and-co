@@ -1,0 +1,24 @@
+# Enable the Rewrite Engine
+RewriteEngine On
+
+# Serve the main blogs page
+RewriteRule ^$ blogs.html [L]
+
+# Explicitly handle requests to /posts/ directory
+RewriteRule ^posts/([^/]+)$ posts/$1.html [L]
+
+# Triple-segment rule
+RewriteRule ^([^/]+)/([^/]+)/([^/]+)/$ /$1/$2/$3.html [L]
+
+# Double-segment rule
+RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2.html [L]
+
+# Single-segment rule
+RewriteRule ^([^/]+)/$ /$1.html [L]
+
+# Avoid applying rules to real files or directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirect everything else to blogs.html (or fallback to index)
+RewriteRule ^(.*)$ blogs.html [L]

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings | Hussain & Co.</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="icon" href="../images/login.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom Theme Colors */
+        :root {
+            --primary-color: #04335d;
+            --secondary-color: #95a5a6;
+            --accent-color: #2ecc71;
+            --neutral-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background-color: var(--primary-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            width: 250px;
+            padding-top: 50px;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            /* Initial color is primary */
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+        }
+
+        .sidebar-toggle.active {
+            color: white;
+            /* Color when sidebar is active */
+        }
+
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .profile-list {
+            margin-top: 30px;
+        }
+
+        .profile-item {
+            background-color: var(--neutral-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-item .profile-actions {
+            text-align: right;
+        }
+
+        .password-field-wrapper {
+            position: relative;
+        }
+
+        .password-field-wrapper .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 70%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+                width: 0;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.active {
+                left: 0;
+                width: 250px;
+            }
+
+            .main-content.active {
+                margin-left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .main-content h1 {
+                margin-top: 0;
+                margin-left: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 class="text-center pt-5">Hussain & Co.</h2>
+        <ul class="nav flex-column ml-3 mt-5">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="create-post.html"><i class="fas fa-plus-circle"></i> Create Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="manage-posts.html"><i class="fas fa-edit"></i> Manage Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="comments.html"><i class="fas fa-comments"></i> Manage Comments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="profile-settings.html"><i class="fas fa-user-cog"></i> Profile Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Profile Settings</h1>
+
+        <!-- Admin Users Form (to add new admins) -->
+        <div class="card">
+            <div class="card-header">
+                <strong>Admin Users List</strong>
+            </div>
+            <div class="card-body">
+                <!-- Form to add new admin -->
+                <form id="addAdminForm">
+                    <div class="form-group">
+                        <label for="newAdminUsername">Username</label>
+                        <input type="text" class="form-control" id="newAdminUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newAdminPassword">Password</label>
+                        <input type="password" class="form-control" id="newAdminPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-bottom: 10px; ">Add Admin</button>
+                </form>
+
+                <!-- Admin Users Table -->
+                <table class="table" id="adminUsersTable">
+                    <thead>
+                        <div id="adminAlertContainer"></div> <!-- This container will hold the admin alerts -->
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Admin users will be dynamically listed here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Edit Admin Modal -->
+        <div class="modal fade" id="editAdminModal" tabindex="-1" aria-labelledby="editAdminModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAdminModalLabel">Edit Admin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editAdminForm">
+                            <input type="hidden" id="adminId">
+                            <div class="mb-3">
+                                <label for="editUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="editUsername" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPassword" class="form-label">New Password (optional)</label>
+                                <input type="password" class="form-control" id="editPassword">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Admin</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Users Table -->
+<table class="table" id="activeUsersTable">
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Username</th>
+            <th>IP Address</th>
+            <th>Last Activity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Active users will be dynamically listed here -->
+    </tbody>
+</table>
+
+
+
+
+        <!-- Delete Admin Modal -->
+        <div class="modal fade" id="deleteAdminModal" tabindex="-1" aria-labelledby="deleteAdminModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteAdminModalLabel">Delete Admin</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this admin?</p>
+                        <input type="hidden" id="deleteAdminId">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn cancel-btn btn-secondary"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteAdmin()">Yes, Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Manage Employee Profiles -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <strong>Manage Employee Profiles</strong>
+            </div>
+            <div class="card-body">
+                <div id="alertContainer"></div>
+
+
+                <form id="createEmployeeForm">
+                    <div id="alertContainer"></div> <!-- For real-time validation alerts -->
+                    <div id="createalertContainer"></div> <!-- For form submission alerts -->
+                    <div class="form-group">
+                        <label for="employeeName">Employee Name</label>
+                        <input type="text" class="form-control" id="employeeName" name="employeeName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeUsername">Username</label>
+                        <input type="text" class="form-control" id="employeeUsername" name="employeeUsername" required>
+                    </div>
+                    <div class="form-group password-field-wrapper">
+                        <label for="employeePassword">Password</label>
+                        <input type="password" class="form-control" id="employeePassword" name="employeePassword"
+                            required>
+                        <i class="fas fa-eye toggle-password"
+                            onclick="togglePasswordVisibility('employeePassword')"></i>
+                    </div>
+                    <button type="submit" class="btn btn-success">Create Employee</button>
+                </form>
+
+                <div class="profile-list">
+                    <h5>Existing Employees</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeProfiles">
+                            <!-- Employee data will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Export to Excel Button -->
+                <button class="btn btn-info mt-4" onclick="exportToExcel()">Export to Excel</button>
+            </div>
+        </div>
+     </div>
+
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar-toggle d-md-none">
+        <i class="fas fa-bars"></i>
+    </div>
+
+
+    <!-- Modal for Editing Employee -->
+    <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEmployeeModalLabel">Edit Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="editalertContainer"></div>
+                    <form id="editEmployeeForm">
+                        <input type="hidden" id="editEmployeeId">
+                        <div class="form-group">
+                            <label for="newEmployeeUsername">Username</label>
+                            <input type="text" class="form-control" id="newEmployeeUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newEmployeePassword">New Password</label>
+                            <input type="password" class="form-control" id="newEmployeePassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Employee Confirmation Modal -->
+    <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="deleteEmployeeModal"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEmployeeModal">Delete Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this Empyloyee?</p>
+                    <input type="hidden" id="deleteEmployeeId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirmDeleteEmployee" class="btn btn-danger"
+                        onclick="deleteEmployee()">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+<script>
+
+// Function to fetch active users from the server
+function fetchActiveUsers() {
+    fetch('active_users.php', {
+        method: 'GET', // GET request to fetch active users
+    })
+    .then(response => response.json())
+    .then(data => {
+        const tableBody = document.querySelector("#activeUsersTable tbody");
+        tableBody.innerHTML = ''; // Clear any existing rows
+        if (data.length > 0) {
+            data.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.role}</td>
+                    <td>${user.username}</td>
+                    <td>${user.ip}</td>
+                    <td>${user.last_activitydate}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="logoutUser('${user.unique_id}')">Logout</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="6">No active users found.</td></tr>';
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching active users:', error);
+    });
+}
+
+// Function to log out a user using unique_id
+function logoutUser(unique_id) {
+    const confirmLogout = confirm('Are you sure you want to log out this user?');
+    if (confirmLogout) {
+        fetch('active_users.php', {
+            method: 'POST', // POST request to log out the user
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `unique_id=${unique_id}` // Pass the unique_id
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                fetchActiveUsers(); // Refresh the active users table after logout
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error logging out user:', error);
+        });
+    }
+}
+
+// Call the fetchActiveUsers function when the page is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    fetchActiveUsers();
+});
+
+
+
+
+</script>
+
+
+    <script>
+
+
+function validateSession() {
+    // Step 1: Retrieve session details
+    fetch('check_session.php', {
+        method: 'GET',
+        credentials: 'same-origin', // Include cookies with the request
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                // If no valid session is found, redirect to login
+                console.error(data.message);
+                window.location.href = 'login.html';
+            } else if (data.status === 'success') {
+               
+
+                // Step 2: Validate the session using session_id and unique_id
+                fetch('check-session.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        session_id: data.session_id,
+                        unique_id: data.unique_id,
+                    }),
+                    credentials: 'same-origin', // Include cookies with the request
+                })
+                    .then(response => response.json())
+                    .then(sessionData => {
+                        if (sessionData.status === 'error') {
+                            // If session is invalid, redirect to login
+                            console.error(sessionData.message);
+                            window.location.href = 'login.html';
+                        } else if (sessionData.status === 'success') {
+                          
+                            // Allow access to the current page
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error validating session:', error);
+                        window.location.href = 'login.html'; // Redirect if an error occurs
+                    });
+            }
+        })
+        .catch(error => {
+            console.error('Error retrieving session details:', error);
+            window.location.href = 'login.html'; // Redirect if an error occurs
+        });
+}
+
+// Call validateSession when the page loads
+document.addEventListener('DOMContentLoaded', validateSession);
+
+
+
+        // Function to check the table length and disable delete button if only one row exists
+        function checkTableLength() {
+            var table = document.getElementById('adminUsersTable'); // Get the table by its ID
+            var rows = table.getElementsByTagName('tr'); // Get all the rows in the table
+
+            // Check if there is only one row of admin (excluding the header row)
+            if (rows.length <= 2) { // 1 header row + 1 data row
+                // Disable all delete buttons inside the adminUsersTable
+                var deleteButtons = table.querySelectorAll('.btn-danger');
+                deleteButtons.forEach(function (button) {
+                    button.disabled = true; // Disable the button
+                });
+            }
+        }
+
+        // Call the function when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            checkTableLength();  // Call the function when the page loads
+
+            // Set a timeout to call the function after a specified delay (e.g., 3 seconds)
+            setTimeout(function () {
+                checkTableLength();  // Call the function after the timeout
+            }, 10); // 100 milliseconds delay to ensure the table is updated
+        });
+        // Function to repeatedly call checkTableLength every 5 milliseconds
+function startCheckingTableLength() {
+    setInterval(function() {
+        checkTableLength(); // Call the checkTableLength function
+    }, 5); // 5 milliseconds interval
+}
+
+        // After adding the row, check the table length again to enable/disable the delete button
+        checkTableLength();
+
+
+
+        // Function to log out the user by calling the PHP logout script
+        function logout() {
+            // Send a GET request to the logout.php script to destroy the session
+            fetch('logout.php', {
+                method: 'GET',
+                credentials: 'same-origin'  // Include cookies with the request
+            })
+                .then(response => response.json())  // Parse the JSON response
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Redirect to the login page after successful logout
+                        window.location.href = 'login.html';  // Change the URL to the login page
+                    } else {
+                        // Optionally, show an error message if logout fails
+                        console.log('Error logging out:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during logout:', error);
+                });
+        }
+
+
+
+// Start checking the table length every 5 milliseconds
+startCheckingTableLength();
+
+document.addEventListener('DOMContentLoaded', startCheckingTableLength);
+
+        // Attach the logout function to the logout button
+        document.getElementById('logoutButton').addEventListener('click', function (e) {
+            e.preventDefault();  // Prevent the default anchor behavior
+            logout();  // Call the logout function
+        });
+    </script>
+
+
+    <script>
+
+        $('.cancel-btn').on('click', function () {
+            $('#deleteEmployeeModal, #deleteAdminModal').modal('hide');
+        });
+
+
+        // Function to show Bootstrap-style alert with a unique name
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById("adminAlertContainer");
+            const alert = document.createElement("div");
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.role = "alert";
+            alert.innerHTML = message +
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+            alertContainer.appendChild(alert);
+            setTimeout(() => alert.remove(), 5000); // Remove alert after 5 seconds
+        }
+
+        // Handle form submission for adding admin
+        document.getElementById("addAdminForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const username = document.getElementById("newAdminUsername").value;
+            const password = document.getElementById("newAdminPassword").value;
+            fetch('manageAdmins.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }, body: JSON.stringify({ action: 'add_admin', username, password })
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showAlert('Admin added successfully!', 'success');
+                        refreshAdminTable();
+                        document.getElementById("addAdminForm").reset(); // Reset the form
+                    } else {
+                        showAlert('Error adding admin: ' + data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error adding admin. Please try again.', 'danger');
+                });
+        });
+
+        // Function to open the delete confirmation modal
+        function confirmDeleteAdmin(adminId) {
+            document.getElementById("deleteAdminId").value = adminId;
+            $('#deleteAdminModal').modal('show');
+        }
+
+        // Handle deletion
+        function deleteAdmin() {
+            const adminId = document.getElementById("deleteAdminId").value;
+            fetch('manageAdmins.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }, body: JSON.stringify({ action: 'delete_admin', adminId })
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showAlert('Admin deleted successfully!', 'success');
+                        $('#deleteAdminModal').modal('hide');
+                        // After deleting and refreshing the table, check table length
+                        checkTableLength();
+                        refreshAdminTable();
+                    } else {
+                        showAlert('Error deleting admin: ' + data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error deleting admin. Please try again.', 'danger');
+                });
+
+        }
+
+        // Function to open the edit modal and populate fields
+        function editAdmin(adminId, username) {
+            document.getElementById("adminId").value = adminId;
+            document.getElementById("editUsername").value = username;
+            document.getElementById("editPassword").value = ""; // Clear password field
+            $('#editAdminModal').modal('show');
+        }
+
+        // Handle form submission for editing
+        document.getElementById("editAdminForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const adminId = document.getElementById("adminId").value;
+            const username = document.getElementById("editUsername").value;
+            const password = document.getElementById("editPassword").value;
+
+
+            fetch('manageAdmins.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }, body: JSON.stringify({ action: 'update_admin', adminId, username, password })
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showAlert('Admin updated successfully!', 'success');
+                        $('#editAdminModal').modal('hide');
+                        refreshAdminTable();
+                    } else {
+                        showAlert('Error updating admin: ' + data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error updating admin. Please try again.', 'danger');
+                });
+        });
+
+        // Function to refresh the admin table dynamically
+        const apiKey = 'PCgOZZ#=2A=m+SiF+pKxpIEo(CjDOhmU';
+
+        function refreshAdminTable() {
+            const apiKey = 'PCgOZZ#=2A=m+SiF+pKxpIEo(CjDOhmU';  // Ensure this is set properly
+            fetch('manageAdmins.php', {
+                method: 'POST',
+                headers: {
+                    'API_KEY': apiKey,  // Send the API key as a custom header
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ action: 'fetch_admins' })
+
+            })
+                .then(response => response.json())  // Parse JSON response here
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        const tableBody = document.querySelector("#adminUsersTable tbody");
+                        tableBody.innerHTML = ""; // Clear existing rows
+                        data.forEach(admin => {
+                            tableBody.innerHTML += `
+                    <tr>
+                        <td>${admin.id}</td>
+                        <td>${admin.username}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editAdmin(${admin.id}, '${admin.username}')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDeleteAdmin(${admin.id})">Delete</button>
+                        </td>
+                    </tr>`;
+                        });
+                    } else {
+                        showAlert('Error: Invalid response data.', 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error fetching admin data. Please try again.', 'danger');
+                });
+        }
+
+
+        // Initial table load
+        refreshAdminTable();
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to display alerts
+            function showAlert(type, message, container) {
+                if (!container || !container.html) {
+                    console.error("Invalid container passed to showAlert");
+                    return;
+                }
+                var alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                                    ${message}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`;
+                container.html(alertHTML); // Display the alert in the specified container
+            }
+
+            // Validate username function with optional currentEmployeeId
+            function validateUsername(username, currentEmployeeId = null) {
+                let data = { username: username };
+                if (currentEmployeeId) {
+                    data.currentEmployeeId = currentEmployeeId;
+                }
+                return $.ajax({
+                    url: 'validate_username.php',  // PHP script to validate username
+                    method: 'POST',
+                    data: data
+                });
+            }
+
+            // Real-time validation for newEmployeeUsername input (Edit Employee Form)
+            $('#newEmployeeUsername').on('input', function () {
+                var username = $(this).val();
+                var alertContainer = $('#editalertContainer');  // Specific alert container for edit form
+                var currentEmployeeId = $('#editEmployeeId').val();
+
+                if (username) {
+                    validateUsername(username, currentEmployeeId).done(function (response) {
+                        if (response === 'exists') {
+                            $('#newEmployeeUsername').removeClass('is-valid').addClass('is-invalid');
+                            showAlert('danger', "Username already exists. Please choose a different username.", alertContainer);
+                        } else {
+                            $('#newEmployeeUsername').removeClass('is-invalid').addClass('is-valid');
+                            showAlert('success', "Username is available.", alertContainer);
+                        }
+                    }).fail(function () {
+                        showAlert('danger', "Sorry for the inconvenience. Something went wrong while validating the username.", alertContainer);
+                    });
+                } else {
+                    $('#newEmployeeUsername').removeClass('is-invalid is-valid');
+                    alertContainer.html('');  // Clear the alert if username field is empty
+                }
+            });
+
+            // Real-time validation for employeeUsername input (Create Employee Form)
+            $('#employeeUsername').on('input', function () {
+                var username = $(this).val();
+                var alertContainer = $('#alertContainer');  // Specific alert container for create form
+
+                if (username) {
+                    validateUsername(username).done(function (response) {
+                        if (response === 'exists') {
+                            $('#employeeUsername').removeClass('is-valid').addClass('is-invalid');
+                            showAlert('danger', "Username already exists. Please choose a different username.", alertContainer);
+                        } else {
+                            $('#employeeUsername').removeClass('is-invalid').addClass('is-valid');
+                            showAlert('success', "Username is available.", alertContainer);
+                        }
+                    }).fail(function () {
+                        showAlert('danger', "Sorry for the inconvenience. Something went wrong while validating the username.", alertContainer);
+                    });
+                } else {
+                    $('#employeeUsername').removeClass('is-invalid is-valid');
+                    alertContainer.html('');  // Clear the alert if username field is empty
+                }
+            });
+
+            // Fetch data from backend (users and employees)
+            function fetchData() {
+                $.ajax({
+                    url: 'manage_data.php',
+                    method: 'GET',
+                    success: function (response) {
+                        var data = JSON.parse(response);
+
+                        // Check if 'data.employees' is an array
+                        if (Array.isArray(data.employees)) {
+                            $('#employeeProfiles').empty(); // Clear the existing list
+
+                            // Display Employees
+                            data.employees.forEach(function (employee) {
+                                $('#employeeProfiles').append(`
+                                    <tr>
+                                        <td>${employee.name}</td>
+                                        <td>${employee.username}</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-sm" onclick="editEmployee(${employee.id}, '${employee.username}')">Edit</button>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${employee.id})">Delete</button>
+                                        </td>
+                                    </tr>
+                                `);
+                            });
+                        } else {
+                            showAlert('danger', "Error fetching employees data.", $('#alertContainer'));
+                        }
+                    },
+                    error: function () {
+                        showAlert('danger', "Sorry for the inconvenience. Could not fetch data.", $('#alertContainer'));
+                    }
+                });
+            }
+
+            // Handle form submission to add employee
+            $('#createEmployeeForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var employeeName = $('#employeeName').val();
+                var employeeUsername = $('#employeeUsername').val();
+                var employeePassword = $('#employeePassword').val();
+                var alertContainer = $('#createalertContainer'); // Alert container for create form submission
+
+                // Validate username before submitting form
+                validateUsername(employeeUsername).done(function (response) {
+                    if (response === 'exists') {
+                        // If the username already exists, display an error and don't reset the form
+                        $('#employeeUsername').removeClass('is-valid').addClass('is-invalid');
+                        showAlert('danger', "Username already exists. Please choose a different username.", alertContainer);
+                    } else {
+                        // If the username is unique, proceed with form submission
+                        $.ajax({
+                            url: 'manage_data.php',
+                            method: 'POST',
+                            data: {
+                                employeeName: employeeName,
+                                employeeUsername: employeeUsername,
+                                employeePassword: employeePassword
+                            },
+                            success: function (response) {
+                                var result = JSON.parse(response);
+                                if (result.status === 'success') {
+                                    showAlert('success', result.message, alertContainer);
+                                    $('#createEmployeeForm')[0].reset(); // Clear the form
+                                    $('#employeeUsername').removeClass('is-valid is-invalid'); // Reset validation classes
+                                    fetchData(); // Refresh the data display
+                                } else {
+                                    showAlert('danger', result.message, alertContainer);
+                                }
+                            },
+                            error: function () {
+                                showAlert('danger', "Sorry for the inconvenience. Something went wrong while adding the employee.", alertContainer);
+                            }
+                        });
+                    }
+                }).fail(function () {
+                    showAlert('danger', "Sorry for the inconvenience. Something went wrong while validating the username.", $('#createalertContainer'));
+                });
+            });
+
+            // Edit employee function
+            window.editEmployee = function (id, username) {
+                $('#editEmployeeId').val(id);
+                $('#newEmployeeUsername').val(username);
+                $('#newEmployeeUsername').removeClass('is-valid is-invalid'); // Reset validation classes
+                $('#editalertContainer').html(''); // Clear any existing alerts
+                $('#editEmployeeModal').modal('show');
+            };
+
+            // Handle Edit Employee Form Submission
+            $('#editEmployeeForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var id = $('#editEmployeeId').val();
+                var username = $('#newEmployeeUsername').val();
+                var password = $('#newEmployeePassword').val();
+                var alertContainer = $('#editalertContainer'); // Alert container for edit form submission
+
+                // Validate username before submitting form
+                validateUsername(username, id).done(function (response) {
+                    if (response === 'exists') {
+                        // If the username already exists, display an error and don't reset the form
+                        $('#newEmployeeUsername').removeClass('is-valid').addClass('is-invalid');
+                        showAlert('danger', "Username already exists. Please choose a different username.", alertContainer);
+                    } else {
+                        // If the username is unique, proceed with form submission
+                        $.ajax({
+                            url: 'manage_data.php',
+                            method: 'POST',
+                            data: {
+                                editEmployeeId: id,
+                                newEmployeeUsername: username,
+                                newEmployeePassword: password
+                            },
+                            success: function (response) {
+                                var result = JSON.parse(response);
+                                if (result.status === 'success') {
+                                    showAlert('success', 'Employee updated successfully!', alertContainer);
+                                    $('#editEmployeeForm')[0].reset(); // Clear the form
+                                    $('#newEmployeeUsername').removeClass('is-valid is-invalid'); // Reset validation classes
+                                    fetchData(); // Refresh employee data
+                                    $('#editEmployeeModal').modal('hide');
+                                } else {
+                                    showAlert('danger', result.message, alertContainer);
+                                }
+                            },
+                            error: function () {
+                                showAlert('danger', "Sorry for the inconvenience. Something went wrong while updating the employee.", alertContainer);
+                            }
+                        });
+                    }
+                }).fail(function () {
+                    showAlert('danger', "Sorry for the inconvenience. Something went wrong while validating the username.", alertContainer);
+                });
+            });
+
+            // Delete employee function
+            window.deleteEmployee = function (id) {
+                $('#deleteEmployeeModal').modal('show');
+                $('#confirmDeleteEmployee').data('employeeId', id);
+            };
+
+            // Handle Delete Employee Confirmation
+            $('#confirmDeleteEmployee').on('click', function () {
+                var id = $(this).data('employeeId');
+                var alertContainer = $('#alertContainer'); // Assuming delete alerts go to main alert container
+
+                $.ajax({
+                    url: 'manage_data.php',
+                    method: 'POST',
+                    data: { deleteEmployeeId: id },
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        if (result.status === 'success') {
+                            showAlert('success', 'Employee deleted successfully!', alertContainer);
+                            fetchData(); // Refresh employee data
+                            $('#deleteEmployeeModal').modal('hide');
+                        } else {
+                            showAlert('danger', 'Error deleting employee.', alertContainer);
+                        }
+                    },
+                    error: function () {
+                        showAlert('danger', "Sorry for the inconvenience. Something went wrong while deleting the employee.", alertContainer);
+                    }
+                });
+            });
+
+            // Initial fetch of data
+            fetchData();
+
+            // Toggle Sidebar
+            document.querySelector('.sidebar-toggle').addEventListener('click', function () {
+                var sidebar = document.querySelector('.sidebar');
+                var mainContent = document.querySelector('.main-content');
+                var toggleButton = document.querySelector('.sidebar-toggle');
+
+                // Toggle the active class for sidebar and main content
+                sidebar.classList.toggle('active');
+                mainContent.classList.toggle('active');
+
+                // Toggle the active class for the toggle button to change its appearance
+                toggleButton.classList.toggle('active');
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+
+</body>
+
+</html>
